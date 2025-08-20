@@ -26,31 +26,33 @@ canvas {
 }
 
 .music-player {
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   z-index: 10;
-  background: rgba(0, 0, 0, 0.7);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 20px 30px;
+  background: rgba(0, 0, 0, 0.85);
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
+  border-radius: 0;
+  padding: 15px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  gap: 12px;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
+  min-height: 80px;
+  width: 100%;
+  transform: none;
 }
 
 .music-player:hover {
-  background: rgba(0, 0, 0, 0.8);
-  transform: translateX(-50%) translateY(-2px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
+  background: rgba(0, 0, 0, 0.9);
+  box-shadow: 0 -6px 30px rgba(0, 0, 0, 0.6);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
 }
 
 .track-info h3 {
@@ -61,24 +63,34 @@ canvas {
   text-align: center;
   letter-spacing: 0.5px;
   transition: color 0.3s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90vw;
 }
 
 .controls {
   display: flex;
   align-items: center;
   gap: 20px;
+  justify-content: center;
+  width: 100%;
 }
 
 .control-btn {
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 8px;
+  padding: 12px;
   border-radius: 50%;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 48px;
+  min-height: 48px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .control-btn:hover {
@@ -88,6 +100,7 @@ canvas {
 
 .control-btn:active {
   transform: scale(0.95);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .control-btn img {
@@ -95,6 +108,12 @@ canvas {
   height: 24px;
   filter: invert(1);
   transition: filter 0.3s ease;
+  pointer-events: none;
+}
+
+.play-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .play-btn img {
@@ -106,24 +125,75 @@ canvas {
   filter: invert(1) brightness(1.2);
 }
 
-@media (max-width: 768px) {
+/* Tablets */
+@media (max-width: 768px) and (min-width: 481px) {
   .music-player {
-    bottom: 20px;
-    padding: 15px 20px;
-    gap: 12px;
+    padding: 18px 25px;
+    gap: 14px;
+  }
+  
+  .track-info h3 {
+    font-size: 15px;
+    max-width: 85vw;
+  }
+  
+  .controls {
+    gap: 18px;
+  }
+  
+  .control-btn {
+    min-width: 50px;
+    min-height: 50px;
+    padding: 13px;
+  }
+  
+  .control-btn img {
+    width: 22px;
+    height: 22px;
+  }
+  
+  .play-btn img {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
+  .music-player {
+    padding: 20px 15px 25px 15px; /* Extra padding bottom for iPhone home indicator */
+    gap: 15px;
+    min-height: 90px;
   }
   
   .track-info h3 {
     font-size: 14px;
+    max-width: 80vw;
+    line-height: 1.2;
   }
   
   .controls {
-    gap: 15px;
+    gap: 25px; /* More space for easier tapping */
+  }
+  
+  .control-btn {
+    padding: 15px;
+    min-width: 55px;
+    min-height: 55px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
   
   .control-btn img {
     width: 20px;
     height: 20px;
+  }
+  
+  .play-btn {
+    min-width: 65px;
+    min-height: 65px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
   
   .play-btn img {
@@ -132,23 +202,26 @@ canvas {
   }
 }
 
-@media (max-width: 480px) {
+/* Extra small phones */
+@media (max-width: 360px) {
   .music-player {
-    bottom: 15px;
-    padding: 12px 18px;
-    gap: 10px;
+    padding: 15px 10px 20px 10px;
+    gap: 12px;
   }
   
   .track-info h3 {
     font-size: 13px;
+    max-width: 75vw;
   }
   
   .controls {
-    gap: 12px;
+    gap: 20px;
   }
   
   .control-btn {
-    padding: 6px;
+    min-width: 50px;
+    min-height: 50px;
+    padding: 12px;
   }
   
   .control-btn img {
@@ -156,8 +229,51 @@ canvas {
     height: 18px;
   }
   
+  .play-btn {
+    min-width: 60px;
+    min-height: 60px;
+  }
+  
   .play-btn img {
-    width: 25px;
-    height: 25px;
+    width: 26px;
+    height: 26px;
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .music-player {
+    padding: 10px 20px 15px 20px;
+    gap: 8px;
+    min-height: 70px;
+  }
+  
+  .track-info h3 {
+    font-size: 13px;
+  }
+  
+  .controls {
+    gap: 15px;
+  }
+  
+  .control-btn {
+    min-width: 45px;
+    min-height: 45px;
+    padding: 10px;
+  }
+  
+  .control-btn img {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .play-btn {
+    min-width: 55px;
+    min-height: 55px;
+  }
+  
+  .play-btn img {
+    width: 24px;
+    height: 24px;
   }
 }
